@@ -30,7 +30,7 @@ angular.module('starter.services', [])
     };
   })
 
-  .factory('BLE', function ($q, $interval, Devices) {
+  .factory('BLE', function ($q, $interval, Devices, $rootScope) {
 
     var connected = null;
     var service = null;
@@ -114,9 +114,12 @@ angular.module('starter.services', [])
                 service = c.service;
               }
             });
+            $rootScope.$broadcast('stopLoading');
           },
           function (reason) {
             deferred.reject(reason);
+            $rootScope.$broadcast('stopLoading');
+            alert("Could not connect!");
           }
         );
 

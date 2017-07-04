@@ -44,18 +44,31 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('BLEDetailCtrl', function ($scope, $stateParams, $log, $ionicPopup, BLE, $interval) {
+  .controller('BLEDetailCtrl', function ($rootScope, $scope, $stateParams, $log, $ionicPopup, BLE, $interval, $ionicLoading) {
     $scope.device = null;
     $scope.message = "";
     $scope.firstEnter = true;
     $scope.goodPostrure = true;
+    $scope.calibrated = false;
 
-    BLE.connect($stateParams.deviceId).then(
-      function (peripheral) {
-        $scope.device = peripheral;
-        BLE.startNotification();
-      }
-    );
+    $scope.$on('$ionicView.enter', function () {
+
+      $ionicLoading.show({
+        template: '<ion-spinner> icon="android" </ion-spinner> <br/> Connecting'
+      });
+
+      BLE.connect($stateParams.deviceId).then(
+        function (peripheral) {
+          $scope.device = peripheral;
+          BLE.startNotification();
+        }
+      );
+    });
+
+    $scope.$on('stopLoading', function (event, args) {
+      $ionicLoading.hide();
+    });
+
 
     writeToDevice = function (dest) {
       if ($scope.device == null) return;
@@ -70,6 +83,7 @@ angular.module('starter.controllers', [])
 
     $interval(function () {
       $scope.message = BLE.recievedData;
+      if ($scope.message.includes('Calibrated')) $scope.calibrated = true;
     }, 100);
 
 

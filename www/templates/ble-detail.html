@@ -1,14 +1,16 @@
 <ion-view view-title="{{device.name}}">
   <ion-content class="padding">
-    <img ng-if="message.includes('correctPosition') || firstEnter" src="img/goodPosture.png" class="postureImageStyle">
-    <img ng-if="!message.includes('correctPosition') && !firstEnter" src="img/badPosture.png" class="postureImageStyle">
-    <p ng-if="message.includes('calibrated')"> Calibrated </p>
-    <p ng-if="message.includes('moveLeft')"> Please adjust your posiiton by moving to the left </p>
-    <p ng-if="message.includes('moveRight')"> Please adjust your posiiton by moving to the right </p>
-    <p ng-if="message.includes('moveForward')"> Please adjust your posiiton by moving forward </p>
-    <p ng-if="message.includes('moveBackwards')"> Please adjust your posiiton by moving backwards </p>
-    <p style="color: green" ng-if="message.includes('correctPosition')"> You have a correct sitting posture! Congratulations! </p>
+    <img ng-if="message.includes('0') || firstEnter" src="img/goodPosture.png" class="postureImageStyle">
+    <img ng-if="!message.includes('0') && !firstEnter" src="img/badPosture.png" class="postureImageStyle">
+    <p style="color: green" ng-if="calibrated == true"> Calibrated </p>
+    <p style="color: green" ng-if="message.includes('0')"> You have a correct sitting posture! Congratulations! </p>
+    <p ng-if="message.includes('1')"> Your position is wrong by 1 </p>
+    <p ng-if="message.includes('2')"> Your position is wrong by 2 </p>
+    <p ng-if="message.includes('3')"> Your position is wrong by 3 </p>
+    <p ng-if="message.includes('4')"> Your position is wrong by 4 </p>
+    <p ng-if="message.includes('5')"> Your position is wrong by 5 </p>
     <p ng-if="firstEnter"> Please adjust your position similar to the one you are seeing in the picture and then press calibrate </p>
+    <p> {{message}} </p>
     <button ng-if="firstEnter" ng-click="calibrate()" class="button button-block">Calibrate</button>
     <button ng-if="!firstEnter" ng-click="calibrate()" class="button button-block">Recalibrate</button>
   </ion-content>
